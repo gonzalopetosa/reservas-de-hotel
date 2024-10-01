@@ -4,15 +4,14 @@ import com.reservaHotel.userService.dto.UserDTO;
 import com.reservaHotel.userService.entity.UserEntity;
 
 import java.util.List;
-import java.util.Optional;
 
 
 public interface UserService {
 	
 	UserEntity crearUsuario(UserEntity usuario) throws Exception;
-	Optional<UserEntity> findByEmail(String email);
+	UserEntity findByEmail(String email) throws Exception;
 	List<UserEntity> findAll();
-	Optional<UserEntity> findById(Long id);
-	void eliminar(UserEntity entity);
+	UserEntity findById(Long id) throws Exception;
+	void eliminar(String email) throws Exception;
 	UserEntity modificar(Long id, UserDTO userDTO) throws Exception;
 }

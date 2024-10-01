@@ -20,17 +20,24 @@ public class UserServiceImpl implements UserService{
 
 	@Override
 	public UserEntity crearUsuario(UserEntity usuario) throws Exception {
-		if(usuario.getEdad() >= 18) {
+		Optional<UserEntity> optionalemail = userRepository.findByEmail(usuario.getEmail());
+		if(optionalemail.isEmpty() && usuario.getEdad() >= 18) {
 			return userRepository.save(usuario);	
-		}else {
+		}else if(usuario.getEdad() < 18){
 			throw new Exception("Para crear un usuario se debe ser mayor de 18 años");
+		}else {
+			throw new Exception("El email ya esta registrado para un usuario");
 		}
-	
 	}
 
 	@Override
-	public Optional<UserEntity> findByEmail(String email) {
-		return userRepository.findByEmail(email);
+	public UserEntity findByEmail(String email) throws Exception{
+		Optional<UserEntity> optional = userRepository.findByEmail(email);
+		if(optional.isEmpty()) {
+			throw new EntityNotFoundException("Usuario no encontrado");			
+		}else {
+			return optional.get();
+		}	
 	}
 
 	@Override
@@ -40,14 +47,24 @@ public class UserServiceImpl implements UserService{
 	}
 
 	@Override
-	public void eliminar(UserEntity entity) {
-		userRepository.delete(entity);
+	public void eliminar(String email) throws Exception{
+		Optional<UserEntity> optional = userRepository.findByEmail(email);
+		if(optional.isEmpty()) {
+			throw new EntityNotFoundException("Usuario no encontrado"); 
+		}else {
+			userRepository.delete(optional.get());	
+		}
+		
 	}
 
 	@Override
-	public Optional<UserEntity> findById(Long id) {
-		return userRepository.findById(id);
-	}
+	public UserEntity findById(Long id) {
+		Optional<UserEntity> optional = userRepository.findById(id);
+		if(optional.isEmpty()) {
+			throw new EntityNotFoundException("Usuario no encontrado");			
+		}else {
+			return optional.get();
+		}	}
 
 	@Override
 	public UserEntity modificar(Long id, UserDTO userDTO) throws Exception{
@@ -59,8 +76,12 @@ public class UserServiceImpl implements UserService{
 			updateUser.setDireccion(userDTO.getDireccion());
 			updateUser.setEmail(userDTO.getEmail());
 			updateUser.setTelefono(userDTO.getTelefono());
-			
-			return userRepository.save(updateUser);
+			//compruebo que el email nuevo no este usado
+			Optional<UserEntity> entity = userRepository.findByEmail(userDTO.getEmail());
+			if(!entity.isEmpty()) {
+				throw new Exception("El email ya esta registrado para un usuario");
+			}
+			return userRepository.save(updateUser);				
 		}
 	}
 

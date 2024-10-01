@@ -1,6 +1,5 @@
 package com.reservaHotel.userService.controller;
 
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -32,33 +31,31 @@ public class UserController {
 	
 	@GetMapping("/get/{id}")
 	public ResponseEntity<?> getById(@PathVariable Long id){
-		Optional<UserEntity> user = userService.findById(id);
-		if(user.isEmpty()) {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-		}else {
+		try {
+			UserEntity user = userService.findById(id);
 			return ResponseEntity.status(HttpStatus.OK).body(user);
+		} catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuario no encontrado");
 		}
 	}
 
 	@GetMapping("/get/email/{email}")
 	public ResponseEntity<?> getByEmail(@PathVariable String email){
-		UserEntity user = userService.findByEmail(email).get();
-		if(user.equals(null)) {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-		}else {
+		try {
+			UserEntity user = userService.findByEmail(email);
 			return ResponseEntity.status(HttpStatus.OK).body(user);
+		} catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuario no encontrado");
 		}
 	}
 	
 	@PostMapping("/create")
 	public ResponseEntity<?> createUser(@RequestBody UserEntity userEntity) throws Exception{
-		Optional<UserEntity> optional = userService.findByEmail(userEntity.getEmail());
-		if(optional.isEmpty()) {
+		try {
 			return ResponseEntity.status(HttpStatus.CREATED).body(userService.crearUsuario(userEntity));			
-		}else {
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("El email ya esta registrado para un usuario");
-		}
-		
+		} catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+		}	
 	}
 	
 	@PutMapping("/{id}")
@@ -66,18 +63,17 @@ public class UserController {
 		try {
 			return ResponseEntity.status(HttpStatus.OK).body(userService.modificar(id, userDTO));
 		} catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuario no encontrado");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
 		}
 	}
-	
+		
 	@DeleteMapping("/eliminar/{email}")
 	public ResponseEntity<?> eliminar(@PathVariable String email){
-		Optional<UserEntity> entity = userService.findByEmail(email);
-		if(entity.isEmpty()) {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-		}else {
-			userService.eliminar(entity.get());
+		try {
+			userService.eliminar(email);
 			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+		} catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuario no encontrado");
 		}
 	}
 	
