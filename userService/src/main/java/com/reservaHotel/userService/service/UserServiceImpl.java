@@ -6,8 +6,11 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.reservaHotel.userService.dto.UserDTO;
 import com.reservaHotel.userService.entity.UserEntity;
 import com.reservaHotel.userService.repository.UserRepository;
+
+import jakarta.persistence.EntityNotFoundException;
 
 @Service
 public class UserServiceImpl implements UserService{
@@ -44,6 +47,21 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public Optional<UserEntity> findById(Long id) {
 		return userRepository.findById(id);
+	}
+
+	@Override
+	public UserEntity modificar(Long id, UserDTO userDTO) throws Exception{
+		Optional<UserEntity> optional = userRepository.findById(id);
+		if(optional.isEmpty()) {
+			throw new EntityNotFoundException("Usuario no encontrado");
+		}else {
+			UserEntity updateUser = optional.get();
+			updateUser.setDireccion(userDTO.getDireccion());
+			updateUser.setEmail(userDTO.getEmail());
+			updateUser.setTelefono(userDTO.getTelefono());
+			
+			return userRepository.save(updateUser);
+		}
 	}
 
 

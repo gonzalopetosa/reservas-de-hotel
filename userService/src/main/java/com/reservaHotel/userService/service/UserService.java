@@ -1,5 +1,6 @@
 package com.reservaHotel.userService.service;
 
+import com.reservaHotel.userService.dto.UserDTO;
 import com.reservaHotel.userService.entity.UserEntity;
 
 import java.util.List;
@@ -13,4 +14,5 @@ public interface UserService {
 	List<UserEntity> findAll();
 	Optional<UserEntity> findById(Long id);
 	void eliminar(UserEntity entity);
+	UserEntity modificar(Long id, UserDTO userDTO) throws Exception;
 }
