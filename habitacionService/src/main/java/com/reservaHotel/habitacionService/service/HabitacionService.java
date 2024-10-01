@@ -1,7 +1,7 @@
 package com.reservaHotel.habitacionService.service;
 
+import com.reservaHotel.habitacionService.dto.HabitacionDTO;
 import com.reservaHotel.habitacionService.entity.HabitacionEntity;
-import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -12,11 +12,12 @@ import java.util.List;
 public interface HabitacionService {
 	
 	List<HabitacionEntity> findAll();
-	Optional<HabitacionEntity> findById(Long id);
+	HabitacionEntity findById(Long id) throws Exception;
 	HabitacionEntity create(HabitacionEntity entity);
-	boolean reservar(HabitacionEntity entity);
-	boolean liberar(HabitacionEntity entity);
-	boolean disponible(Long id);
-	void eliminar(HabitacionEntity entity);
+	boolean reservar(Long id) throws Exception;
+	boolean liberar(Long id) throws Exception;
+	boolean disponible(Long id) throws Exception;
+	void eliminar(Long id) throws Exception;
 	List<HabitacionEntity> filtroPorPrecio(BigDecimal precioMaximo);
+	HabitacionEntity modificar(Long id, HabitacionDTO habitacionDTO) throws Exception;
 }
