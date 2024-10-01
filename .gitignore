@@ -1,0 +1,68 @@
+# Directorios generados por Maven
+/target/
+**/target/
+
+# Archivos de configuración de IntelliJ IDEA
+*.iml
+.idea/
+*.iws
+*.ipr
+
+# Eclipse/STS files
+.project
+.classpath
+.settings/
+
+# Archivos de configuración de VS Code
+.vscode/
+
+# Archivos y carpetas generados por Gradle
+.gradle/
+build/
+
+# Directorios de logs
+logs/
+*.log
+
+# Archivos temporales del sistema operativo
+.DS_Store
+Thumbs.db
+
+# Archivos de ejecución de Maven
+mvnw
+mvnw.cmd
+
+# Configuraciones de dependencia de Maven Wrapper
+/.mvn/
+
+# Variables de entorno locales
+.env
+
+# Archivos de compilación de Java
+*.class
+
+# Archivos relacionados a la gestión del control de versiones
+*.swp
+*.swo
+
+# Archivos de empaquetado
+*.jar
+*.war
+*.ear
+
+# Archivos generados por el uso de herramientas de código y linting
+/target/
+/out/
+/bin/
+
+# Archivos de caché
+*.cache
+*.tmp
+*.bak
+
+# Archivos que contienen credenciales
+X*.key
+*.pem
+*.p12
+
+.metadata/
