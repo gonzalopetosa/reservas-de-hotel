@@ -50,7 +50,13 @@ public class UserController {
 	
 	@PostMapping("/create")
 	public ResponseEntity<?> createUser(@RequestBody UserEntity userEntity) throws Exception{
-		return ResponseEntity.status(HttpStatus.CREATED).body(userService.crearUsuario(userEntity));
+		Optional<UserEntity> optional = userService.findByEmail(userEntity.getEmail());
+		if(optional.isEmpty()) {
+			return ResponseEntity.status(HttpStatus.CREATED).body(userService.crearUsuario(userEntity));			
+		}else {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("El email ya esta registrado para un usuario");
+		}
+		
 	}
 	
 	@DeleteMapping("/eliminar/{email}")
