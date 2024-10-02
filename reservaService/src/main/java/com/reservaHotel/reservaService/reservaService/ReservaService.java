@@ -7,9 +7,9 @@ import com.reservaHotel.reservaService.entity.ReservaEntity;
 public interface ReservaService {
 
 	ReservaEntity crear(ReservaEntity entity) throws Exception;
-	List<ReservaEntity> getAll();
-	ReservaEntity getById(Long Id) throws Exception;
-	List<ReservaEntity> getByUserId(Long userId) throws Exception;
+	List<ReservaEntity> findAll();
+	ReservaEntity findById(Long Id) throws Exception;
+	List<ReservaEntity> findByUserId(Long userId) throws Exception;
 	void eliminar(Long id) throws Exception;
 	ReservaEntity modificar(Long id, ReservaDTO dto) throws Exception;
 }

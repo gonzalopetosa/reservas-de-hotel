@@ -44,13 +44,13 @@ public class ReservaServiceImpl implements ReservaService{
 	}
 
 	@Override
-	public List<ReservaEntity> getAll() {
+	public List<ReservaEntity> findAll() {
 		List<ReservaEntity> entities = reservaRepository.findAll();
 		return entities;
 	}
 
 	@Override
-	public ReservaEntity getById(Long id) throws Exception{
+	public ReservaEntity findById(Long id) throws Exception{
 		Optional<ReservaEntity> optional = reservaRepository.findById(id);
 		if(optional.isEmpty()) {
 			throw new EntityNotFoundException("No existe reserva con ese id");
@@ -59,7 +59,7 @@ public class ReservaServiceImpl implements ReservaService{
 	}
 
 	@Override
-	public List<ReservaEntity> getByUserId(Long userId) throws Exception{
+	public List<ReservaEntity> findByUserId(Long userId) throws Exception{
 
 		try{
 			
