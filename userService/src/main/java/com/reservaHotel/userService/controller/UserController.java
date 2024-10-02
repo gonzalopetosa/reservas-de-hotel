@@ -83,8 +83,8 @@ public class UserController {
 	@DeleteMapping("/eliminar/{email}")
 	public ResponseEntity<?> eliminar(@PathVariable String email){
 		try {
-			logger.info("Se elimino correctamente el usuario de email {}", email);
 			userService.eliminar(email);
+			logger.info("Se elimino correctamente el usuario de email {}", email);
 			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 		} catch (Exception e) {
 			logger.warn("No se encontro un usuario de email {}", email);
