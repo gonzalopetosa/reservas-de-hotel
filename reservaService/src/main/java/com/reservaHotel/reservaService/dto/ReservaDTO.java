@@ -1,6 +1,6 @@
 package com.reservaHotel.reservaService.dto;
 
-import java.math.BigDecimal;
+import java.time.LocalDate;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,10 +9,9 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class HabitacionDTO {
+public class ReservaDTO {
 
-	private Long id;
-	private boolean disponible;
-	private BigDecimal precio;
-	
+    private LocalDate fechaInicio;
+    private LocalDate fechaFin;
+    private String estado; 
 }
