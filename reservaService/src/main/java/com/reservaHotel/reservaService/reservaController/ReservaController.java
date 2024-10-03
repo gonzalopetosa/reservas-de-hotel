@@ -18,6 +18,7 @@ import com.reservaHotel.reservaService.reservaService.ReservaService;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/reserva")
@@ -36,8 +37,9 @@ public class ReservaController {
 	@PostMapping("/create")
 	public ResponseEntity<?> crear(@RequestBody ReservaEntity entity){
 		try {
+			ReservaEntity entity2 = reservaService.crear(entity);
 			logger.info("Se creo correctamente una reserva {}: ",entity);
-			return ResponseEntity.status(HttpStatus.CREATED).body(reservaService.crear(entity));
+			return ResponseEntity.status(HttpStatus.CREATED).body(entity2);
 		} catch (Exception e) {
 			logger.warn("Hubo un erro al intentar crear una reserva {}: ",e.getMessage());
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
@@ -47,8 +49,9 @@ public class ReservaController {
 	@GetMapping("/{userId}")
 	public ResponseEntity<?> getByUser(@PathVariable Long userId){
 		try {
+			List<ReservaEntity> entities = reservaService.findByUserId(userId);
 			logger.info("Se encontro correctamente el id del usuario {}: ", userId);
-			return ResponseEntity.status(HttpStatus.OK).body(reservaService.findByUserId(userId));
+			return ResponseEntity.status(HttpStatus.OK).body(entities);
 		} catch (Exception e) {
 			logger.warn("El id del ususario no existe {}: ", userId);
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
@@ -58,8 +61,8 @@ public class ReservaController {
 	@DeleteMapping("/eliminar/{id}")
 	public ResponseEntity<?> eliminar(@PathVariable Long id){
 		try {
-			logger.info("Se elimino una reserva {}", reservaService.findById(id));
 			reservaService.eliminar(id);
+			logger.info("Se elimino una reserva {}", reservaService.findById(id));
 			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 		} catch (Exception e) {
 			logger.warn("La reserva con id {}: ", id, " no existe");
@@ -70,8 +73,9 @@ public class ReservaController {
 	@PutMapping("/modificar/{id}")
 	public ResponseEntity<?> modificar(@PathVariable Long id, @RequestBody ReservaDTO dto){
 		try {
+			ReservaEntity entity = reservaService.modificar(id, dto);
 			logger.info("Se modifico correctamente la reserva {}: ",reservaService.findById(id));
-			return ResponseEntity.status(HttpStatus.OK).body(reservaService.modificar(id, dto));
+			return ResponseEntity.status(HttpStatus.OK).body(entity);
 		} catch (Exception e) {
 			logger.warn("Hubo un erro al intentar modificar una reserva {}: ",e.getMessage());
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());

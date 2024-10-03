@@ -61,8 +61,9 @@ public class UserController {
 	@PostMapping("/create")
 	public ResponseEntity<?> createUser(@RequestBody UserEntity userEntity) throws Exception{
 		try {
+			UserEntity entity = userService.crearUsuario(userEntity);
 			logger.info("Se creo correctamente el usuario {}", userEntity);
-			return ResponseEntity.status(HttpStatus.CREATED).body(userService.crearUsuario(userEntity));			
+			return ResponseEntity.status(HttpStatus.CREATED).body(entity);			
 		} catch (Exception e) {
 			logger.warn("Hubo un error al crear un usuario {}", e.getMessage());
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
@@ -72,8 +73,9 @@ public class UserController {
 	@PutMapping("/{id}")
 	public ResponseEntity<?> modificar(@PathVariable Long id, @RequestBody UserDTO userDTO){
 		try {
+			UserEntity entity = userService.modificar(id, userDTO);
 			logger.info("Se modifico correctamente un usuario, id {}", id);
-			return ResponseEntity.status(HttpStatus.OK).body(userService.modificar(id, userDTO));
+			return ResponseEntity.status(HttpStatus.OK).body(entity);
 		} catch (Exception e) {
 			logger.warn("Hubo un error al modificar un usuario {}", e.getMessage());
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());

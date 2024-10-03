@@ -40,8 +40,9 @@ public class HabitacionController {
 	@GetMapping("/get/{id}")
 	public ResponseEntity<?> getById(@PathVariable Long id){
 		try {
+			HabitacionEntity entity = habitacionService.findById(id);
 			logger.info("Se encontro correctamente la habitacion de id {}", id);
-			return ResponseEntity.status(HttpStatus.OK).body(habitacionService.findById(id));
+			return ResponseEntity.status(HttpStatus.OK).body(entity);
 		} catch (Exception e) {
 			logger.warn("No se encontro la habitacion de id ", id);
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
@@ -60,8 +61,9 @@ public class HabitacionController {
 	@PutMapping("/reservar/{id}")
 	public ResponseEntity<?> reservar(@PathVariable Long id){
 		try {
+			boolean response = habitacionService.reservar(id);
 			logger.info("Se intento reservar una habitacion {}", habitacionService.findById(id));
-			return ResponseEntity.status(HttpStatus.OK).body(habitacionService.reservar(id));
+			return ResponseEntity.status(HttpStatus.OK).body(response);
 		} catch (Exception e) {
 			logger.warn("No se encontro la habitacion de id {}", id);
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
@@ -71,8 +73,9 @@ public class HabitacionController {
 	@PutMapping("/liberar/{id}")
 	public ResponseEntity<?> liberar(@PathVariable Long id){
 		try {
+			boolean response = habitacionService.liberar(id);
 			logger.info("Se intento liberar una habitacion {}", habitacionService.findById(id));
-			return ResponseEntity.status(HttpStatus.OK).body(habitacionService.liberar(id));
+			return ResponseEntity.status(HttpStatus.OK).body(response);
 		} catch (Exception e) {
 			logger.warn("No se encontro la habitacion de id {}", id);
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
@@ -87,8 +90,9 @@ public class HabitacionController {
 	@PostMapping("/create")
 	public ResponseEntity<?> create(@RequestBody HabitacionEntity entity){
 		try {
+			HabitacionEntity entity2 = habitacionService.create(entity);
 			logger.info("Se creo correctamente un habitacion {}", entity);
-			return ResponseEntity.status(HttpStatus.OK).body(habitacionService.create(entity));
+			return ResponseEntity.status(HttpStatus.OK).body(entity2);
 		} catch (Exception e) {
 			logger.info("Hubo un error al crear una habitacion {}", e.getMessage());
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
@@ -99,8 +103,8 @@ public class HabitacionController {
 	@DeleteMapping("/eliminar/{id}")
 	public ResponseEntity<?> eliminar(@PathVariable Long id){
 		try {
-			logger.info("Se elimino una habitacion {}", habitacionService.findById(id));
 			habitacionService.eliminar(id);
+			logger.info("Se elimino una habitacion {}", habitacionService.findById(id));
 			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 		} catch (Exception e) {
 			logger.warn("No se encontro la habitacion de id {}", id);
@@ -111,8 +115,9 @@ public class HabitacionController {
 	@PutMapping("/modificar/{id}")
 	public ResponseEntity<?> modificar(@PathVariable Long id, @RequestBody HabitacionDTO dto){
 		try {
+			HabitacionEntity entity = habitacionService.modificar(id, dto);
 			logger.info("Se modifico correctamente la habitacion {}", habitacionService.findById(id));
-			return ResponseEntity.status(HttpStatus.OK).body(habitacionService.modificar(id, dto));
+			return ResponseEntity.status(HttpStatus.OK).body(entity);
 		} catch (Exception e) {
 			logger.warn("Hubo un error la modificar una habitacion {}", e.getMessage());
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
