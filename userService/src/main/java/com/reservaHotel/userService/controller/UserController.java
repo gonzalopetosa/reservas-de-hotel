@@ -7,7 +7,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,7 +25,7 @@ public class UserController {
 	
 	@Autowired
 	private UserService userService;
-	
+		
 	private Logger logger = LoggerFactory.getLogger(UserController.class);
 	
 	@GetMapping("/getAll")
@@ -57,19 +56,7 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuario no encontrado");
 		}
 	}
-	
-	@PostMapping("/create")
-	public ResponseEntity<?> createUser(@RequestBody UserEntity userEntity) throws Exception{
-		try {
-			UserEntity entity = userService.crearUsuario(userEntity);
-			logger.info("Se creo correctamente el usuario {}", userEntity);
-			return ResponseEntity.status(HttpStatus.CREATED).body(entity);			
-		} catch (Exception e) {
-			logger.warn("Hubo un error al crear un usuario {}", e.getMessage());
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-		}	
-	}
-	
+		
 	@PutMapping("/{id}")
 	public ResponseEntity<?> modificar(@PathVariable Long id, @RequestBody UserDTO userDTO){
 		try {
